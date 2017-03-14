@@ -25,6 +25,22 @@ public class App {
 
   private static void explore(List<Job> jobs) {
     // Your amazing code below...
-    System.out.println("Hi mom!");
+    // "Louisville, KY", "Bend, OR"
+    printPortlandJobsStream(jobs);
+  }
+
+  private static void printPortlandJobsStream(List<Job> jobs) {
+    jobs.stream()
+        .filter(job -> job.getState().equals("OR"))
+        .filter(job -> job.getCity().equals("Portland"))
+        .forEach(System.out::println);
+  }
+
+  private static void printPortlandJobsImperatively(List<Job> jobs) {
+    for (Job job : jobs) {
+      if (job.getState().equals("OR") && job.getCity().equals("Portland")) {
+        System.out.println(job);
+      }
+    }
   }
 }
