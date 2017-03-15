@@ -27,7 +27,7 @@ public class App {
 
   private static void explore(List<Job> jobs) {
     // Your amazing code below...
-    getThreeJuniorJobsStream(jobs).forEach(System.out::println);
+    getCaptionsStream(jobs).forEach(System.out::println);
   }
 
   private static boolean isJuniorJob(Job job) {
@@ -56,6 +56,29 @@ public class App {
       }
     }
     return juniorJobs;
+  }
+
+  private static List<String> getCaptionsStream(List<Job> jobs) {
+    return jobs.stream()
+        .filter(App::isJuniorJob)
+        .map(Job::getCaption)
+        .limit(3)
+        .collect(Collectors.toList());
+  }
+
+
+
+  private static List<String> getCaptionsImperatively(List<Job> jobs) {
+    List<String> captions = new ArrayList<>();
+    for (Job job : jobs) {
+      if (isJuniorJob(job)) {
+        captions.add(job.getCaption());
+        if (captions.size() >= 3) {
+          break;
+        }
+      }
+    }
+    return captions;
   }
 
   private static void printPortlandJobsStream(List<Job> jobs) {

@@ -96,4 +96,11 @@ public class Job {
     result = 31 * result + (date != null ? date.hashCode() : 0);
     return result;
   }
+
+  public String getCaption() {
+    return String.format("%s is looking for a %s in %s",
+        getCompany(),
+        getTitle(),
+        getCity());
+  }
 }
