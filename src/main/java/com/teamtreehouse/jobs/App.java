@@ -40,12 +40,9 @@ public class App {
         .sorted()
         .collect(Collectors.toList());
 
-    int pageSize = 20;
-    int numPages = companies.size() / pageSize;
-
-    IntStream.iterate(1, i -> i + pageSize)
-        //.mapToObj(i -> String.format("%d. %s", i, companies.get(i)))
-        //.limit(numPages)
+    companies.stream()
+        .peek(company -> System.out.println("======>" + company))
+        .filter(company -> company.startsWith("N"))
         .forEach(System.out::println);
 
 
