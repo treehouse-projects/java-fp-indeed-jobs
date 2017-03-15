@@ -40,7 +40,15 @@ public class App {
         .sorted()
         .collect(Collectors.toList());
 
-    displayCompaniesMenuUsingRange(companies);
+    int pageSize = 20;
+    int numPages = companies.size() / pageSize;
+
+    IntStream.iterate(1, i -> i + pageSize)
+        //.mapToObj(i -> String.format("%d. %s", i, companies.get(i)))
+        //.limit(numPages)
+        .forEach(System.out::println);
+
+
   }
 
   private static void displayCompaniesMenuImperatively(List<String> companies) {
