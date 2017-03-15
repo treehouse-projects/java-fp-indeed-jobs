@@ -31,7 +31,7 @@ public class App {
 
   private static void explore(List<Job> jobs) {
     // Your amazing code below...
-    getSnippetWordCountsImperatively(jobs)
+    getSnippetWordCountsStream(jobs)
         .forEach((key, value) -> System.out.printf("'%s' occurs %d times %n", key, value));
   }
 
