@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -34,18 +35,25 @@ public class App {
 
   private static void explore(List<Job> jobs) {
     // Your amazing code below...
-    List<String> companies = jobs.stream()
-        .map(Job::getCompany)
-        .distinct()
-        .sorted()
-        .collect(Collectors.toList());
+    Job firstOne = jobs.get(0);
+    System.out.println("First job: " + firstOne);
+    Predicate<Job> caJobChecker = job -> job.getState().equals("CA");
 
-    companies.stream()
-        .peek(company -> System.out.println("======>" + company))
-        .filter(company -> company.startsWith("N"))
-        .forEach(System.out::println);
+    Job caJob = jobs.stream()
+        .filter(caJobChecker)
+        .findFirst()
+        .orElseThrow(NullPointerException::new);
 
 
+    emailIfMatches(firstOne, caJobChecker);
+    emailIfMatches(caJob, caJobChecker.and(App::isJuniorJob));
+
+  }
+
+  public static void emailIfMatches(Job job, Predicate<Job> checker) {
+    if (checker.test(job)) {
+      System.out.println("I am sending an email about " + job);
+    }
   }
 
   private static void displayCompaniesMenuImperatively(List<String> companies) {
