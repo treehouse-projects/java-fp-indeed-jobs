@@ -38,25 +38,29 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below...
 
-    Function<String, LocalDateTime> indeedDateConverter =
-        dateString -> LocalDateTime.parse(
-            dateString,
-            DateTimeFormatter.RFC_1123_DATE_TIME);
-    // 3 / 15 / 17
-
-    Function<LocalDateTime, String> siteDateStringConverter =
-        date -> date.format(DateTimeFormatter.ofPattern("M / d / YY"));
-
-    Function<String, String> indeedToSiteDateStringConverter =
-        indeedDateConverter.andThen(siteDateStringConverter);
+   Function<String, String> converter = createDateStringConverter(
+       DateTimeFormatter.RFC_1123_DATE_TIME,
+       DateTimeFormatter.ISO_DATE
+   );
 
     jobs.stream()
         .map(Job::getDateTimeString)
-        .map(indeedToSiteDateStringConverter)
+        .map(converter)
         .limit(5)
         .forEach(System.out::println);
 
   }
+
+  public static Function<String, String> createDateStringConverter(
+      DateTimeFormatter inFormatter,
+      DateTimeFormatter outFormatter) {
+    int meaningOfLife = 42;
+    return dateString -> {
+      return meaningOfLife + "------" + LocalDateTime.parse(dateString, inFormatter)
+          .format(outFormatter);
+    };
+  }
+
 
   public static void emailIfMatches(Job job, Predicate<Job> checker) {
     if (checker.test(job)) {
