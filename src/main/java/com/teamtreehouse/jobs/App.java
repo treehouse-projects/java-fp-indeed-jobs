@@ -4,6 +4,8 @@ import com.teamtreehouse.jobs.model.Job;
 import com.teamtreehouse.jobs.service.JobService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -35,18 +37,24 @@ public class App {
 
   private static void explore(List<Job> jobs) {
     // Your amazing code below...
-    Job firstOne = jobs.get(0);
-    System.out.println("First job: " + firstOne);
-    Predicate<Job> caJobChecker = job -> job.getState().equals("CA");
 
-    Job caJob = jobs.stream()
-        .filter(caJobChecker)
-        .findFirst()
-        .orElseThrow(NullPointerException::new);
+    Function<String, LocalDateTime> indeedDateConverter =
+        dateString -> LocalDateTime.parse(
+            dateString,
+            DateTimeFormatter.RFC_1123_DATE_TIME);
+    // 3 / 15 / 17
 
+    Function<LocalDateTime, String> siteDateStringConverter =
+        date -> date.format(DateTimeFormatter.ofPattern("M / d / YY"));
 
-    emailIfMatches(firstOne, caJobChecker);
-    emailIfMatches(caJob, caJobChecker.and(App::isJuniorJob));
+    Function<String, String> indeedToSiteDateStringConverter =
+        indeedDateConverter.andThen(siteDateStringConverter);
+
+    jobs.stream()
+        .map(Job::getDateTimeString)
+        .map(indeedToSiteDateStringConverter)
+        .limit(5)
+        .forEach(System.out::println);
 
   }
 
