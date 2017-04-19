@@ -9,7 +9,7 @@ Current data is cached and included in the repository.
 
 ### To refresh the job data
 Sign up to be an [Indeed publisher](https://www.indeed.com/publisher).  Add your publisher key to the [config.properties](src/main/resources/config.properties) file,
-and set `shouldRefresh` in [App.java](src/main/java/com/teamtreehouse/jobs/App.java).
+and set `shouldRefresh` in [App.java](src/main/java/com/teamtreehouse/jobs/App.java#L13).
 
 #### Using this code
 You can jump to a certain point in the course by checking out a tag.  Tags are in the format of `sXvY` where,
